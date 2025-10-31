@@ -1,0 +1,469 @@
+/* --- Root Variables (Light & Dark) --- */
+:root {
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    
+    --primary-color: #111827;
+    --primary-hover: #333333;
+    
+    /* --- Grid variables --- */
+    --grid-color: rgba(0, 0, 0, 0.1); 
+    
+    --grid-color-dark: rgba(255, 255, 255, 0.05); 
+    --grid-size: 50px;
+    --grid-pattern: 
+        linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+    --grid-pattern-dark:
+        linear-gradient(to right, var(--grid-color-dark) 1px, transparent 1px),
+        linear-gradient(to bottom, var(--grid-color-dark) 1px, transparent 1px);
+
+    /* --- "Light Mode" (Default) --- */
+    --bg-color: var(--grid-pattern), #ffffff; 
+    --card-bg: #ffffff;
+    --text-color: #111827;
+    --text-muted: #6b7280;
+    --border-color: #e5e7eb;
+
+    /* --- "Dark Mode" (Toggled) --- */
+    --bg-color-dark: var(--grid-pattern-dark), #111111; 
+    --card-bg-dark: #1a1a1a; 
+    --text-color-dark: #f8fafc;
+    --text-muted-dark: #94a3b8;
+    --border-dark: rgba(255, 255, 255, 0.1);
+
+    /* --- Shadows --- */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+}
+
+body.dark-mode {
+    --bg-color: var(--bg-color-dark);
+    --card-bg: var(--card-bg-dark);
+    --text-color: var(--text-color-dark);
+    --text-muted: var(--text-muted-dark);
+    --border-color: var(--border-dark);
+    
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 0 15px rgba(255, 255, 255, 0.05); 
+}
+
+
+/* --- General Styles --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-sans);
+    background: var(--bg-color);
+    background-size: var(--grid-size) var(--grid-size), auto;
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+}
+
+#root-container {
+    transition: filter 0.3s ease-in-out;
+}
+
+/* --- NEW Top Bar Styles --- */
+.top-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2rem;
+    z-index: 10;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-logo {
+    height: 60px; 
+    width: auto; 
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem; 
+}
+
+/* --- Sliding Sun/Moon Toggle Styles --- */
+.theme-switch {
+    display: inline-block;
+    background: #f9fafb; 
+    border-radius: 99px;
+    border: 1px solid var(--border-color);
+    padding: 4px;
+    cursor: pointer;
+    position: relative;
+    width: 50px; 
+    height: 28px;
+    box-sizing: content-box;
+    transition: background 0.3s ease;
+    box-shadow: var(--shadow);
+}
+body.dark-mode .theme-switch {
+    background: var(--card-bg-dark);
+    border-color: var(--border-color);
+}
+
+.theme-switch .handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s ease, border-color 0.3s ease;
+    box-shadow: var(--shadow-sm);
+}
+.theme-switch input { display: none; }
+.theme-switch svg {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    color: var(--text-muted);
+    position: absolute; 
+}
+.theme-switch .sun { opacity: 1; transform: rotate(0deg); }
+.theme-switch .moon { opacity: 0; transform: rotate(-90deg); }
+.theme-switch input:checked + .handle {
+    transform: translateX(22px); 
+    background-color: var(--card-bg); 
+    border-color: var(--border-color); 
+}
+.theme-switch input:checked + .handle .sun { opacity: 0; transform: rotate(90deg); }
+.theme-switch input:checked + .handle .moon { opacity: 1; transform: rotate(0deg); }
+
+
+/* --- Hero Section Styles --- */
+.hero {
+    text-align: center;
+    padding: 8rem 1.5rem 2rem; /* Reduced bottom padding from 6rem to 2rem */
+    max-width: 800px;
+    margin: 0 auto;
+}
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 1.1;
+}
+.hero .subtitle {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin: 1.5rem auto 0;
+    line-height: 1.7;
+}
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2.5rem;
+}
+
+/* --- "Trusted By" Section --- */
+.trusted-by {
+    text-align: center;
+    padding: 4rem 1.5rem 6rem;
+    border-top: 1px solid var(--border-color);
+}
+.trusted-by h2 {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+/* --- Project Grid --- */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 2.5rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.project-card {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    border: 1px solid var(--text-color); 
+    box-shadow: 
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.5), 
+        var(--shadow); 
+    overflow: hidden;
+    cursor: pointer;
+    will-change: transform; 
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.project-card.visible { opacity: 1; transform: translateY(0); }
+.project-card:hover { 
+    box-shadow: 
+        inset 0 1px 1px 0 rgba(255, 255, 255, 0.7), 
+        var(--shadow-lg); 
+}
+.project-card img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border-color);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.project-card:hover img { transform: scale(1.08); }
+.project-card .card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 1.25rem 1.5rem;
+}
+
+/* --- Modal Styling --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: grid;
+    place-items: center;
+    z-index: 1000;
+    padding: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.modal-content {
+    background-color: var(--card-bg);
+    border-radius: 12px;
+    width: 100%;
+    max-width: 700px;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    opacity: 0; 
+    transform: scale(1);
+    transition: opacity 0.2s ease 0.15s; 
+    will-change: transform, opacity;
+    padding: 0;
+    border: 1px solid var(--border-color);
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-overlay.active .modal-content { opacity: 1; }
+.modal-active #root-container {
+    filter: blur(8px);
+    transform: scale(0.99);
+    pointer-events: none;
+    user-select: none;
+}
+.close-button {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: var(--text-muted);
+    cursor: pointer;
+    line-height: 1;
+    transition: color 0.2s, transform 0.2s;
+}
+.close-button:hover { color: var(--text-color); transform: rotate(90deg); }
+.modal-image {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 8px 8px 0 0;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+.modal-title, .modal-content h3, .team-members,
+.modal-description, .tech-tags, .cta-button {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+}
+.modal-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    padding-top: 1rem;
+}
+.modal-content h3 {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-top: 1.5rem;
+    margin-bottom: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.team-members { display: flex; flex-wrap: wrap; gap: 1.5rem; }
+.team-profile { display: flex; align-items: center; gap: 0.75rem; }
+.team-profile img {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary-color);
+    box-shadow: var(--shadow-sm);
+}
+.team-profile span { font-size: 0.95rem; font-weight: 500; }
+.modal-description {
+    font-size: 1rem;
+    line-height: 1.7;
+    color: var(--text-muted);
+    padding-bottom: 1.5rem;
+}
+.tech-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+
+.tag {
+    background-color: var(--border-color);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+    padding: 0.3rem 0.8rem;
+    border-radius: 99px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+body.dark-mode .tag {
+    background-color: #333; 
+    color: var(--text-muted-dark); 
+    border: 1px solid var(--border-dark);
+}
+
+/* --- Button Styles (Monochrome) --- */
+.cta-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    padding: 0.65rem 1.25rem;
+    border-radius: 99px; 
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s, border-color 0.2s, color 0.2s;
+}
+.cta-button.primary {
+    background: var(--text-color);
+    color: var(--card-bg);
+    border: 1px solid var(--text-color);
+}
+.cta-button.primary:hover {
+    background-color: var(--primary-hover);
+    border-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+body.dark-mode .cta-button.primary {
+    background: var(--text-color-dark);
+    color: var(--card-bg-dark);
+    border-color: var(--text-color-dark);
+}
+body.dark-mode .cta-button.primary:hover {
+    background-color: #e0e0e0;
+    border-color: #e0e0e0;
+}
+
+.cta-button.secondary {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+}
+.cta-button.secondary:hover {
+    border-color: var(--text-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+body.dark-mode .cta-button.secondary {
+    background: var(--card-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+body.dark-mode .cta-button.secondary:hover {
+    border-color: var(--text-color);
+}
+
+#modal-cta {
+    background: var(--text-color);
+    color: var(--card-bg);
+    border-color: var(--text-color);
+}
+#modal-cta:hover {
+    background: var(--primary-hover);
+    border-color: var(--primary-hover);
+}
+body.dark-mode #modal-cta {
+    background: var(--text-color-dark);
+    color: var(--card-bg-dark);
+    border-color: var(--text-color-dark);
+}
+body.dark-mode #modal-cta:hover {
+    background-color: #e0e0e0;
+    border-color: #e0e0e0;
+}
+
+
+/* --- Sequential Modal Animation States --- */
+.modal-title, .modal-description, .modal-content h3, .team-members, .tech-tags, .cta-button {
+    opacity: 0;
+    transform: translateY(15px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.modal-title.visible, .modal-description.visible, .modal-content h3.visible, .team-members.visible, .tech-tags.visible, .cta-button.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+/* --- Responsive Design --- */
+@media (max-width: 1024px) {
+    .project-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 900px;
+    }
+}
+
+@media (max-width: 768px) {
+    .project-grid {
+        grid-template-columns: 1fr;
+        padding: 1.5rem;
+        max-width: 100%;
+    }
+    .top-bar {
+        padding: 1.5rem; /* Tighter padding on mobile */
+    }
+    .hero h1 { font-size: 2.5rem; }
+    .hero .subtitle { font-size: 1rem; }
+
+    .modal-content { padding: 0; max-height: 95vh; }
+    .modal-title, .modal-content h3, .team-members,
+    .modal-description, .tech-tags, .cta-button {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+    .modal-title { font-size: 1.75rem; }
+}
+@media (max-width: 480px) {
+    .hero-buttons { flex-direction: column; }
+}

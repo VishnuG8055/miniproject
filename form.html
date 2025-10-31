@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a New Project</title>
+    <link rel="stylesheet" href="form.style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display.swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="form-container">
+        <header>
+            <h1>Submit a New Project</h1>
+            <p>This data will be added to the main project gallery.</p>
+        </header>
+        
+        <form id="project-form">
+            <div class="form-group">
+                <label for="title">Project Title</label>
+                <input type="text" id="title" name="title" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="thumbnail_file">Thumbnail Image</label>
+                <input type="file" id="thumbnail_file" name="thumbnail_file" accept="image/png, image/jpeg" required>
+            </div>
+
+            <div class="form-group">
+                <label for="image_file">Main Project Image (for modal)</label>
+                <input type="file" id="image_file" name="image_file" accept="image/png, image/jpeg" required>
+            </div>
+
+            <div class="form-group">
+                <label for="project_link">Project "Live Demo" Link</label>
+                <input type="url" id="project_link" name="project_link" placeholder="https://your-project.netlify.app" required>
+            </div>
+
+            <div class="form-group">
+                <label>Team Members</label>
+                <div id="team-members-list">
+                    </div>
+                <button type="button" id="add-member-btn" class="cta-button secondary small">
+                    + Add Team Member
+                </button>
+            </div>
+            <div class="form-group">
+                <label for="tags">Technology Tags (comma-separated)</label>
+                <input type="text" id="tags" name="tags" placeholder="React, Node.js, Supabase, C++">
+            </div>
+
+            <div class="button-group">
+                <button type="submit" class="cta-button primary" id="submit-button">Submit Project</button>
+                <a href="index.html" class="cta-button secondary">Back to Gallery</a>
+            </div>
+
+            <div id="status-message"></div>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="form.script.js"></script>
+</body>
+</html>
