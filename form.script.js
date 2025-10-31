@@ -1,3 +1,4 @@
+
 // --- 1. Supabase Client Setup ---
 const SUPABASE_URL = 'https://iasxhdjlrbwycgfelkbn.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imlhc3hoZGpscmJ3eWNnZmVsa2JuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjE4MDQxNzIsImV4cCI6MjA3NzM4MDE3Mn0.RUdAuTHvE1xji56TyuNjbMWVMcxRsHhy7-Idf7tdqlM';
